@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Music Repository</title>
+</head>
+<body>
+    <header>
+        <h1>Music Repository</h1>
+        <h3>by Elliot Clark and Aria Coalson</h3>
+    </header>
+
+    <nav>
+        <a href="/">Home</a>
+        <a href="album">Albums</a>
+        <a href="artist">Add Artist</a>
+        <a href="purchase">Purchase</a>
+        <a href="customer">Add Customer</a>
+        <a href="song">Add Song</a>
+    </nav>
+
+    <div class="search">
+        <input type="text" class="search-box" placeholder="Search...">
+        <button class="search-button">Search</button>
+    </div>
+
+        <table>
+        <thead>
+            <tr>
+                <th>artistID</th>
+                <th>artistName</th>
+                <th>country</th>
+                <th>website</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1001</td>
+                <td>The Beetles</td>
+                <td>United Kingdom</td>
+                <td><a href="https://www.abeatle.com/">https://www.abeatle.com/</a></td>
+                <td>
+                    <button>Update</button>
+                    <button>Delete</button>
+                </td>
+            </tr>
+            <tr>
+                <td>1002</td>
+                <td>Taylor Slow</td>
+                <td>United States</td>
+                <td><a href="https://www.taylorslow.com/">https://www.taylorslow.com/</a></td>
+                <td>
+                    <button>Update</button>
+                    <button>Delete</button>
+                </td>
+            </tr>
+            <tr>
+                <td>1003</td>
+                <td>The Rolling Pebbles</td>
+                <td>United Kingdom</td>
+                <td><a href="https://www.rolledstone.com/">https://www.rolledstone.com/</a></td>
+                <td>
+                    <button>Update</button>
+                    <button>Delete</button>
+                </td>
+            </tr>
+            <tr>
+                <td>1004</td>
+                <td>Frank Cilantro</td>
+                <td>United States</td>
+                <td><a href="https://www.frankcilantro.com/">https://www.frankcilantro.com/</a></td>
+                <td>
+                    <button>Update</button>
+                    <button>Delete</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="insert_form">
+        <h2>Add/Insert Artist</h2>
+        <form action="/submit_artist" method="post">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+    
+            <label for="country">Country:</label>
+            <input type="text" id="country" name="country" required>
+    
+            <label for="website">Website:</label>
+            <input type="text" id="website" name="website">
+    
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+
+    <div class="insert_form">
+        <h2>Update Artist</h2>
+        <form id="update-artist-form-ajax">
+
+            <label for="update">Artist ID</label>
+            <input type="number" id="update-ID" name="update-ID" required>
+
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+    
+            <label for="country">Country:</label>
+            <input type="text" id="country" name="country" required>
+    
+            <label for="website">Website:</label>
+            <input type="text" id="website" name="website">
+            
+            <input type="submit">
+        </form>
+    </div>
+</body>
+</html>

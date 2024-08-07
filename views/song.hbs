@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Music Repository</title>
+</head>
+<body>
+    <header>
+        <h1>Music Repository</h1>
+        <h3>by Elliot Clark and Aria Coalson</h3>
+    </header>
+
+    <nav>
+        <a href="/">Home</a>
+        <a href="album">Albums</a>
+        <a href="artist">Add Artist</a>
+        <a href="purchase">Purchase</a>
+        <a href="customer">Add Customer</a>
+        <a href="song">Add Song</a>
+    </nav>
+
+    <div class="search">
+        <input type="text" class="search-box" placeholder="Search...">
+        <button class="search-button">Search</button>
+    </div>
+
+        <table>
+        <thead>
+            <tr>
+                <th>songID</th>
+                <th>songTitle</th>
+                <th>songDuration</th>
+                <th>albumID</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>20001</td>
+                <td>Green Submarine</td>
+                <td>2:42</td>
+                <td>1</td>
+                <td>
+                    <button>Update</button>
+                    <button>Delete</button>
+                </td>
+            </tr>
+            <tr>
+                <td>20002</td>
+                <td>Bugs Bugs Bugs</td>
+                <td>3:21</td>
+                <td>2</td>
+                <td>
+                    <button>Update</button>
+                    <button>Delete</button>
+                </td>
+            </tr>
+            <tr>
+                <td>20003</td>
+                <td>Let It Go</td>
+                <td>2:02</td>
+                <td>2</td>
+                <td>
+                    <button>Update</button>
+                    <button>Delete</button>
+                </td>
+            </tr>
+            <tr>
+                <td>20004</td>
+                <td>I Knew You Were Fine</td>
+                <td>1:59</td>
+                <td>3</td>
+                <td>
+                    <button>Update</button>
+                    <button>Delete</button>
+                </td>
+            </tr>
+            <tr>
+                <td>20005</td>
+                <td>Autumn in Ohio</td>
+                <td>3:05</td>
+                <td>5</td>
+                <td>
+                    <button>Update</button>
+                    <button>Delete</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="insert_form">
+        <h2>Add/Insert Song</h2>
+        <form action="/submit_song" method="post">
+            <label for="title">Title:</label>
+            <input type="text" id="title" name="title" required>
+    
+            <label for="duration">Duration:</label>
+            <input type="text" id="duration" name="duration" required>
+
+            <label for="album">Album (FK):</label>
+            <input type="text" id="album" name="album" required>
+    
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+
+    <div class="insert_form">
+        <h2>Update Song</h2>
+        <form id="update-song-form-ajax">
+
+            <label for="update">Song ID</label>
+            <input type="number" id="update-ID" name="update-ID" required>
+
+            <label for="title">Title:</label>
+            <input type="text" id="title" name="title" required>
+    
+            <label for="duration">Duration:</label>
+            <input type="text" id="duration" name="duration" required>
+
+            <label for="album">Album (FK):</label>
+            <input type="text" id="album" name="album" required>
+            
+            <input type="submit">
+        </form>
+    </div>
+</body>
+</html>

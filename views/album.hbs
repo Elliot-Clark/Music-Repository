@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Music Repository</title>
+</head>
+<body>
+
+    <header>
+        <h1>Music Repository</h1>
+        <h3>by Elliot Clark and Aria Coalson</h3>
+    </header>
+
+    <nav>
+        <a href="/">Home</a>
+        <a href="album">Albums</a>
+        <a href="artist">Add Artist</a>
+        <a href="purchase">Purchase</a>
+        <a href="customer">Add Customer</a>
+        <a href="song">Add Song</a>
+    </nav>
+
+    <div class="search">
+        <input type="text" class="search-box" placeholder="Search...">
+        <button class="search-button">Search</button>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>AlbumID</th>
+                <th>ArtistID</th>
+                <th>AlbumTitle</th>
+                <th>AlbumGenre</th>
+                <th>AlbumReleaseDate</th>
+                <th>AlbumPrice</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>1001</td>
+                <td>Green Submarine</td>
+                <td>Rock</td>
+                <td>1969-10-02</td>
+                <td>$25</td>
+                <td>
+                    <button>Update</button>
+                    <button>Delete</button>
+                </td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>1001</td>
+                <td>The Beetles at Hollywood</td>
+                <td>Rock</td>
+                <td>1980-04-05</td>
+                <td>$22</td>
+                <td>
+                    <button>Update</button>
+                    <button>Delete</button>
+                </td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>1002</td>
+                <td>Blue</td>
+                <td>Country</td>
+                <td>2012-12-21</td>
+                <td>$12</td>
+                <td>
+                    <button>Update</button>
+                    <button>Delete</button>
+                </td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>1003</td>
+                <td>Some Boys</td>
+                <td>Rock</td>
+                <td>2002-04-05</td>
+                <td>$21</td>
+                <td>
+                    <button>Update</button>
+                    <button>Delete</button>
+                </td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>1004</td>
+                <td>Come Sink with Me</td>
+                <td>Jazz</td>
+                <td>2011-03-08</td>
+                <td>$38</td>
+                <td>
+                    <button>Update</button>
+                    <button>Delete</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="insert_form">
+        <h2>Add/Insert Album</h2>
+        <form action="/submit_album" method="post">
+            <label for="title">Title:</label>
+            <input type="text" id="title" name="title" required>
+    
+            <label for="genre">Genre:</label>
+            <input type="text" id="genre" name="genre" required>
+    
+            <label for="release_date">Release Date:</label>
+            <input type="date" id="release_date" name="release_date" required>
+    
+            <label for="price">Price:</label>
+            <input type="number" id="price" name="price" step="0.01" required>
+
+            <label for="artist">Artist (FK):</label>
+            <input type="text" id="artist" name="artist" required>
+    
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+
+
+    <div class="insert_form">
+        <h2>Updating Album</h2>
+        <form id="update-album-form-ajax">
+
+            <label for="update">Album ID</label>
+            <input type="number" id="update-ID" name="update-ID" required>
+
+            <label for="title">Title:</label>
+            <input type="text" id="title" name="title" required>
+    
+            <label for="genre">Genre:</label>
+            <input type="text" id="genre" name="genre" required>
+    
+            <label for="release_date">Release Date:</label>
+            <input type="date" id="release_date" name="release_date" required>
+    
+            <label for="price">Price:</label>
+            <input type="number" id="price" name="price" step="0.01" required>
+
+            <label for="artist">Artist (FK):</label>
+            <input type="text" id="artist" name="artist" required>
+            
+            <input type="submit">
+        </form>
+    </div>
+
+
+</body>
+</html>
