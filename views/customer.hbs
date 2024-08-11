@@ -37,6 +37,7 @@
                 {{#each data.[0]}}
                 <th>{{@key}}</th>
                 {{/each}}
+                <th>Delete</th>
             </tr>
         </thead>
         <tbody>
@@ -45,6 +46,7 @@
                 <td>{{this.customerID}}</td>
                 <td>{{this.email}}</td>
                 <td>{{this.phoneNumber}}</td>
+                <td><button onclick="deleteCustomer({{this.customerID}})">Delete</button></td>
             </tr>
             {{else}}
             <tr>
@@ -53,6 +55,8 @@
             {{/each}}
         </tbody>
     </table>
+
+    <script src="./js/delete_customer.js"></script>
     
     <div class="insert_form">
         <h2>Add/Insert Customer</h2>

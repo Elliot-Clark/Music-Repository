@@ -40,6 +40,7 @@
                     {{@key}}
                 </th>
                 {{/each}}
+                <th>Delete</th>
             </tr>
         </thead>
         <tbody>
@@ -51,6 +52,7 @@
                 <td>{{this.albumGenre}}</td>
                 <td>{{this.albumReleaseDate}}</td>
                 <td>${{this.albumPrice}}</td>
+                <td><button onclick="deleteAlbum({{this.albumID}})">Delete</button></td>
             </tr>
             {{else}}
             <tr>
@@ -59,6 +61,8 @@
             {{/each}}
         </tbody>
     </table>
+
+    <script src="./js/delete_album.js"></script>
 
     <div class="insert_form">
         <h2>Add/Insert Album</h2>
@@ -76,7 +80,12 @@
             <input type="number" id="price" name="price" step="0.01" required>
 
             <label for="artist">Artist (FK):</label>
-            <input type="number" id="artist" name="artist" required>
+            <select name="artist" id="artist" required>
+                <option value="">Select the Artist:</option>
+                {{#each artists}}
+                <option name="artist" type="text" id="artist" value="{{this.artistID}}">{{this.artistName}}</option>
+                {{/each}}
+            </select>
     
             <input type="submit" value="Submit">
         </form>

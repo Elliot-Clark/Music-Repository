@@ -39,6 +39,7 @@
                     {{@key}}
                 </th>
                 {{/each}}
+                <th>Delete</th>
             </tr>
         </thead>
         <tbody>
@@ -48,6 +49,7 @@
                 <td>{{this.songTitle}}</td>
                 <td>{{this.songDuration}}</td>
                 <td>{{this.albumID}}</td>
+                <td><button onclick="deleteSong({{this.songID}})">Delete</button></td>
             </tr>
             {{else}}
             <tr>
@@ -56,6 +58,8 @@
             {{/each}}
         </tbody>
     </table>
+
+    <script src="./js/delete_song.js"></script>
 
     <div class="insert_form">
         <h2>Add/Insert Song</h2>

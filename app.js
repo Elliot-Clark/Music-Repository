@@ -146,21 +146,6 @@ app.put('/update-purchase-ajax', function(req,res,next){
 });
 
 // --------------------------------------------------------ARTIST----------------------------------------------
-app.post('/add-artist-form', function(req, res) {
-    console.log('Add request received'); // Debug log
-    let data = req.body;
-
-    let query1 = `INSERT INTO Artists (artistName, country, website) VALUES ('${data['input-artistName']}', '${data['input-country']}', '${data['input-website']}')`;
-    db.pool.query(query1, function(error, rows, fields) {
-        if (error) {
-            console.error("Database insert error: ", error);
-            res.sendStatus(400); // Bad Request
-        } else {
-            res.redirect('/artist'); // Redirect back to the root route
-        }
-    });
-});
-
 app.get('/artist', function(req, res) {
     let query1;
 
@@ -180,9 +165,44 @@ app.get('/artist', function(req, res) {
     });
 });
 
+app.post('/add-artist-form', function(req, res) {
+    console.log('Add request received'); // Debug log
+    let data = req.body;
+
+    let query1 = `INSERT INTO Artists (artistName, country, website) VALUES ('${data['input-artistName']}', '${data['input-country']}', '${data['input-website']}')`;
+    db.pool.query(query1, function(error, rows, fields) {
+        if (error) {
+            console.error("Database insert error: ", error);
+            res.sendStatus(400); // Bad Request
+        } else {
+            res.redirect('/artist'); // Redirect back to the root route
+        }
+    });
+});
+
+app.delete('/delete-artist-ajax/', function(req, res, next){
+    let data = req.body;
+    let artist_ID = parseInt(data.artistID);
+    let delete_artist = `
+    DELETE FROM Artists
+    WHERE artistID = ?
+    `;
+  
+    db.pool.query(delete_artist, [artist_ID], function(error, rows, fields) {
+        if (error) {
+            console.log(error);
+            res.sendStatus(400);
+        } else {
+            res.sendStatus(204);
+        }
+    })
+});
+
 // --------------------------------------------------------ALBUM----------------------------------------------
 app.get('/album', function(req, res) {
     let query1;
+
+    let query2 = "SELECT * FROM `Artists`"
 
     if (req.query.title === undefined) {
         query1 = "SELECT * FROM Albums;";
@@ -191,12 +211,18 @@ app.get('/album', function(req, res) {
     }
 
     db.pool.query(query1, function(error, rows, fields) {
+        let results = rows
         if (error) {
             console.error("Database query error: ", error);
             res.sendStatus(500); // Internal Server Error
             return;
+        } else {
+            db.pool.query(query2, function(error, rows, fields) {
+                let artists = rows
+
+                return res.render('album', { data: results, artists: artists });
+            })
         }
-        return res.render('album', { data: rows });
     });
 });
 
@@ -213,6 +239,25 @@ app.post('/add-album-form', function(req, res) {
             res.redirect('/album'); // Redirect back to the album route
         }
     });
+});
+
+
+app.delete('/delete-album-ajax/', function(req, res, next){
+    let data = req.body;
+    let album_ID = parseInt(data.albumID);
+    let delete_album = `
+    DELETE FROM Albums
+    WHERE albumID = ?
+    `;
+  
+    db.pool.query(delete_album, [album_ID], function(error, rows, fields) {
+        if (error) {
+            console.log(error);
+            res.sendStatus(400);
+        } else {
+            res.sendStatus(204);
+        }
+    })
 });
 
 // --------------------------------------------------------CUSTOMER-------------------------------------------
@@ -253,6 +298,24 @@ app.post('/add-customer-form', function(req, res) {
     });
 });
 
+app.delete('/delete-customer-ajax/', function(req, res, next){
+    let data = req.body;
+    let customer_ID = parseInt(data.customerID);
+    let delete_customer = `
+    DELETE FROM Customers
+    WHERE customerID = ?
+    `;
+  
+    db.pool.query(delete_customer, [customer_ID], function(error, rows, fields) {
+        if (error) {
+            console.log(error);
+            res.sendStatus(400);
+        } else {
+            res.sendStatus(204);
+        }
+    })
+});
+
 // --------------------------------------------------------SONG-----------------------------------------------
 app.get('/song', function(req, res) {
     let query1;
@@ -286,6 +349,24 @@ app.post('/add-song-form', function(req, res) {
             res.redirect('/song'); // Redirect back to the song route
         }
     });
+});
+
+app.delete('/delete-song-ajax/', function(req, res, next){
+    let data = req.body;
+    let song_ID = parseInt(data.songID);
+    let delete_song = `
+    DELETE FROM Songs
+    WHERE songID = ?
+    `;
+  
+    db.pool.query(delete_song, [song_ID], function(error, rows, fields) {
+        if (error) {
+            console.log(error);
+            res.sendStatus(400);
+        } else {
+            res.sendStatus(204);
+        }
+    })
 });
 
 /*
