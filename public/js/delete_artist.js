@@ -1,3 +1,6 @@
+// Citation for the following starter code:
+// Based off of "osu-cs340-ecampus/nodejs-starter-app":
+
 function deleteArtist(artistID) {
     let data = {
         artistID: artistID

@@ -22,7 +22,7 @@
     </nav>
 
     <div class="search">
-        <h3>Search by purchase amount:</h3>
+        <h3>Search by Purchase amount:</h3>
         <form id="search-purchase" method='GET' action='/purchase'>
             <input for="input-purchase-amount" name="purchaseAmount" type="number" class="search-box" placeholder="Search...">
             <input type="submit">
@@ -90,11 +90,11 @@
     </div>
 
     <div class="insert_form">
-        <h2>Update A Customer</h2>
+        <h2>Update A Purchase</h2>
         <form id="update-purchase-form-ajax">
 
             <select name="purchaseID" id="update-ID" required>
-                <option value="">Select which purchase to Update:</option>
+                <option value="">Select which Purchase to Update:</option>
                 {{#each data}}
                 <option name="purchaseID" type="text" value="{{this.purchaseID}}">{{this.purchaseID}}</option>
                 {{/each}}

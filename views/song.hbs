@@ -22,7 +22,7 @@
     </nav>
 
     <div class="search">
-        <h3>Search by song title:</h3>
+        <h3>Search by Song Title:</h3>
         <form id="search-song" method='GET' action='/song'>
             <input type="text" name="title" class="search-box" placeholder="Search...">
             <input type="submit">
@@ -44,7 +44,7 @@
         </thead>
         <tbody>
             {{#each data}}
-            <tr>
+            <tr data-value={{this.songID}}>
                 <td>{{this.songID}}</td>
                 <td>{{this.songTitle}}</td>
                 <td>{{this.songDuration}}</td>
@@ -70,13 +70,45 @@
             <label for="duration">Duration:</label>
             <input type="text" id="duration" name="duration" required>
 
-            <label for="album">Album (FK):</label>
-            <input type="number" id="album" name="album" required>
-    
+            <label for="album">Album (Optional FK):</label>
+            <select name="album" id="album">
+                <option value="customer">Select which Album has this song:</option>
+                {{#each albums}}
+                <option name="album" type="text" id="album" value="{{this.albumID}}">{{this.albumTitle}}</option>
+                {{/each}}
+            </select>
+
             <input type="submit" value="Submit">
         </form>
     </div>
 
+    <div class="insert_form">
+        <h2>Update A Song</h2>
+        <form id="update-song-form-ajax">
+
+            <select name="songID" id="update-ID" required>
+                <option value="">Select which Song to Update:</option>
+                {{#each data}}
+                <option name="songID" type="text" value="{{this.songID}}">{{this.songTitle}}</option>
+                {{/each}}
+            </select>
+    
+            <label for="duration">Duration:</label>
+            <input type="text" id="update-duration" name="duration" required>
+
+            <label for="album">Album (Optional FK, Don't Select to set FK value to NULL):</label>
+            <select name="album" id="update-album">
+                <option value="">Select which Album has this song:</option>
+                {{#each albums}}
+                <option name="album" type="text" id="album" value="{{this.albumID}}">{{this.albumTitle}}</option>
+                {{/each}}
+            </select>
+            
+            <input type="submit">
+        </form>
+    </div>
+
+    <script src="./js/update_song.js"></script>
     <script src="./js/add_song.js"></script>
 </body>
 </html>

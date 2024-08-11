@@ -1,9 +1,10 @@
+// Citation for the following starter code:
+// Based off of "osu-cs340-ecampus/nodejs-starter-app":
+
 let updatePersonForm = document.getElementById('update-album-form-ajax');
 
 // Modify the objects we need
 updatePersonForm.addEventListener("submit", function (e) {
-
-    console.log("Running update")
    
     // Prevent the form from submitting
     e.preventDefault();
@@ -27,23 +28,17 @@ updatePersonForm.addEventListener("submit", function (e) {
         albumDate: albumDate,
         albumPrice: albumPrice
     }
-
-    console.log(data)
     
     // Setup our AJAX request
     var xhttp = new XMLHttpRequest();
     xhttp.open("PUT", "/update-album-ajax", true);
     xhttp.setRequestHeader("Content-type", "application/json");
 
-    console.log("Feafeff")
-
     // Tell our AJAX request how to resolve
     xhttp.onreadystatechange = () => {
-        console.log(xhttp.readyState, xhttp.status)
         if (xhttp.readyState == 4 && xhttp.status == 200) {
             // Add the new data to the table
-            console.log("Running xhttp thing")
-            updateRow(xhttp.response, albumID, albumAmount);
+            updateRow(xhttp.response, albumID, albumArtist, albumTitle, albumGenre, albumDate, albumPrice);
 
         }
         else if (xhttp.readyState == 4 && xhttp.status != 200) {
@@ -55,15 +50,34 @@ updatePersonForm.addEventListener("submit", function (e) {
 
 })
 
-function updateRow(data, albumID, albumAmount){
+function updateRow(data, albumID, albumArtist, albumTitle, albumGenre, albumDate, albumPrice){
     let parsedData = JSON.parse(data);
     let table = document.getElementById("album-table");
 
     for (let i = 0, row; row = table.rows[i]; i++) {
        if (table.rows[i].getAttribute("data-value") == albumID) {
             let updateRowIndex = table.getElementsByTagName("tr")[i];
-            let td = updateRowIndex.getElementsByTagName("td")[2];
-            td.innerHTML = "$" + albumAmount; 
+
+            if (albumArtist) {
+                updateRowIndex.getElementsByTagName("td")[1].innerHTML = albumArtist
+            }
+
+            if (albumTitle) {
+                updateRowIndex.getElementsByTagName("td")[2].innerHTML = albumTitle
+            }
+
+            if (albumGenre) {
+                updateRowIndex.getElementsByTagName("td")[3].innerHTML = albumGenre
+            }
+            
+            if (albumDate) {
+                updateRowIndex.getElementsByTagName("td")[4].innerHTML = albumDate
+            }
+            
+            if (albumPrice) {
+                updateRowIndex.getElementsByTagName("td")[5].innerHTML = "$" + albumPrice
+            }
+
        }
     }
 }

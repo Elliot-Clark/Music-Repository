@@ -1,4 +1,5 @@
-// App.js
+// Citation for the following starter code:
+// Based off of "osu-cs340-ecampus/nodejs-starter-app":
 
 /*
     SETUP
@@ -75,7 +76,6 @@ app.post('/add-purchase-form', function(req, res){
     JOIN Albums a ON a.albumID = '${data['album']}'
     WHERE c.customerID = '${data['customer']}';
     `
-    console.log(query1)
 
      db.pool.query(query1, function(error, rows, fields){
         if (error) {
@@ -149,10 +149,10 @@ app.put('/update-purchase-ajax', function(req,res,next){
 app.get('/artist', function(req, res) {
     let query1;
 
-    if (req.query.lname === undefined) {
+    if (req.query.artistName === undefined) {
         query1 = "SELECT * FROM Artists;";
     } else {
-        query1 = `SELECT * FROM Artists WHERE artistName LIKE "${req.query.lname}%"`;
+        query1 = `SELECT * FROM Artists WHERE artistName LIKE "${req.query.artistName}%"`;
     }
 
     db.pool.query(query1, function(error, rows, fields) {
@@ -332,6 +332,7 @@ app.post('/add-customer-form', function(req, res) {
         INSERT INTO Customers (email, phoneNumber) 
         VALUES ('${data['email']}', '${data['phone']}')
     `;
+
     db.pool.query(query1, function(error, rows, fields) {
         if (error) {
             console.error("Database insert error: ", error);
@@ -364,6 +365,8 @@ app.delete('/delete-customer-ajax/', function(req, res, next){
 app.get('/song', function(req, res) {
     let query1;
 
+    let query2 = "SELECT * FROM `Albums`"
+
     if (req.query.title === undefined) {
         query1 = "SELECT * FROM Songs;";
     } else {
@@ -376,7 +379,12 @@ app.get('/song', function(req, res) {
             res.sendStatus(500); // Internal Server Error
             return;
         }
-        return res.render('song', { data: rows });
+        let data = rows;
+
+        db.pool.query(query2, function(error, rows, fields) {
+            let albums = rows
+            return res.render('song', { data: data, albums: albums });
+        })
     });
 });
 
@@ -384,6 +392,10 @@ app.post('/add-song-form', function(req, res) {
     let data = req.body;
 
     let query1 = `INSERT INTO Songs (songTitle, songDuration, albumID) VALUES ('${data['title']}', '${data['duration']}', ${data['album']})`;
+
+    if (data.album == "") {
+        query1 = `INSERT INTO Songs (songTitle, songDuration) VALUES ('${data['title']}', '${data['duration']}')`;
+    }
 
     db.pool.query(query1, function(error, rows, fields) {
         if (error) {
@@ -393,6 +405,37 @@ app.post('/add-song-form', function(req, res) {
             res.redirect('/song'); // Redirect back to the song route
         }
     });
+});
+
+app.put('/update-song-ajax', function(req,res,next){
+    let data = req.body;
+
+    let songID = data.songID;
+    let songDuration = data.songDuration;
+    let songAlbum = data.songAlbum;
+
+    let query = "UPDATE Songs SET"
+
+    if (songDuration) {
+        query = query + " songDuration = '" + songDuration + "',"
+    }
+
+    if (!songAlbum) {
+        query = query + " albumID = NULL,"
+    } else {
+        query = query + " albumID = '" + songAlbum + "',"
+    }
+
+    query = query.slice(0, -1) + " WHERE songID = " + songID;
+
+    db.pool.query(query, function(error, rows, fields) {
+        if (error) {
+            console.log(error);
+            res.sendStatus(400);
+        } else {
+            res.send(rows);
+        }
+    })
 });
 
 app.delete('/delete-song-ajax/', function(req, res, next){
