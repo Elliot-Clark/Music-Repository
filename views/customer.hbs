@@ -22,78 +22,51 @@
     </nav>
 
     <div class="search">
-        <input type="text" class="search-box" placeholder="Search...">
-        <button class="search-button">Search</button>
+        <h3>Search by email:</h3>
+        <form id="search-customer" method="GET" action="/customer">
+            <input type="text" name="email" class="search-box" placeholder="Search...">
+            <input type="submit" value="Search">
+            <a href="/customer"><button>Reset</button></a>
+        </form>
     </div>
 
+    <!-- Customer Table -->
     <table>
         <thead>
             <tr>
-                <th>customerID</th>
-                <th>email</th>
-                <th>phoneNumber</th>
-                <th>Actions</th>
+                {{#each data.[0]}}
+                <th>{{@key}}</th>
+                {{/each}}
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>50001</td>
-                <td>realemail@gmail.com</td>
-                <td>555-555-5555</td>
-                <td>
-                    <button>Update</button>
-                    <button>Delete</button>
-                </td>
+            {{#each data}}
+            <tr data-value="{{this.customerID}}">
+                <td>{{this.customerID}}</td>
+                <td>{{this.email}}</td>
+                <td>{{this.phoneNumber}}</td>
             </tr>
+            {{else}}
             <tr>
-                <td>50002</td>
-                <td>person@yahoo.com</td>
-                <td>401-402-4003</td>
-                <td>
-                    <button>Update</button>
-                    <button>Delete</button>
-                </td>
+                <td colspan="3">No customers found</td>
             </tr>
-            <tr>
-                <td>50003</td>
-                <td>email@gmail.com</td>
-                <td>210-021-2001</td>
-                <td>
-                    <button>Update</button>
-                    <button>Delete</button>
-                </td>
-            </tr>
+            {{/each}}
         </tbody>
     </table>
     
     <div class="insert_form">
         <h2>Add/Insert Customer</h2>
-        <form action="/submit_customer" method="post">
+        <form id="add-customer-form" method="POST" action="/add-customer-form">
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" required>
-    
+
             <label for="phone">Phone Number:</label>
             <input type="tel" id="phone" name="phone" required>
-    
+
             <input type="submit" value="Submit">
         </form>
     </div>
 
-    <div class="insert_form">
-        <h2>Update Customer</h2>
-        <form id="update-customer-form-ajax">
-
-            <label for="update">Customer ID</label>
-            <input type="number" id="update-ID" name="update-ID" required>
-
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
-    
-            <label for="phone">Phone Number:</label>
-            <input type="tel" id="phone" name="phone" required>
-            
-            <input type="submit">
-        </form>
-    </div>
+    <script src="./js/delete_customer.js"></script>
 </body>
 </html>

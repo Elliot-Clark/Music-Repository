@@ -22,77 +22,44 @@
     </nav>
 
     <div class="search">
-        <input type="text" class="search-box" placeholder="Search...">
-        <button class="search-button">Search</button>
+        <h3>Search by song title:</h3>
+        <form id="search-song" method='GET' action='/song'>
+            <input type="text" name="title" class="search-box" placeholder="Search...">
+            <input type="submit">
+            <a href='/song'><button>Reset</button></a>
+        </form>
     </div>
 
-        <table>
+    <!-- Song Table -->
+    <table id="song-table">
         <thead>
             <tr>
-                <th>songID</th>
-                <th>songTitle</th>
-                <th>songDuration</th>
-                <th>albumID</th>
-                <th>Actions</th>
+                {{#each data.[0]}}
+                <th>
+                    {{@key}}
+                </th>
+                {{/each}}
             </tr>
         </thead>
         <tbody>
+            {{#each data}}
             <tr>
-                <td>20001</td>
-                <td>Green Submarine</td>
-                <td>2:42</td>
-                <td>1</td>
-                <td>
-                    <button>Update</button>
-                    <button>Delete</button>
-                </td>
+                <td>{{this.songID}}</td>
+                <td>{{this.songTitle}}</td>
+                <td>{{this.songDuration}}</td>
+                <td>{{this.albumID}}</td>
             </tr>
+            {{else}}
             <tr>
-                <td>20002</td>
-                <td>Bugs Bugs Bugs</td>
-                <td>3:21</td>
-                <td>2</td>
-                <td>
-                    <button>Update</button>
-                    <button>Delete</button>
-                </td>
+                <td colspan="4">No songs found</td>
             </tr>
-            <tr>
-                <td>20003</td>
-                <td>Let It Go</td>
-                <td>2:02</td>
-                <td>2</td>
-                <td>
-                    <button>Update</button>
-                    <button>Delete</button>
-                </td>
-            </tr>
-            <tr>
-                <td>20004</td>
-                <td>I Knew You Were Fine</td>
-                <td>1:59</td>
-                <td>3</td>
-                <td>
-                    <button>Update</button>
-                    <button>Delete</button>
-                </td>
-            </tr>
-            <tr>
-                <td>20005</td>
-                <td>Autumn in Ohio</td>
-                <td>3:05</td>
-                <td>5</td>
-                <td>
-                    <button>Update</button>
-                    <button>Delete</button>
-                </td>
-            </tr>
+            {{/each}}
         </tbody>
     </table>
 
     <div class="insert_form">
         <h2>Add/Insert Song</h2>
-        <form action="/submit_song" method="post">
+        <form id="add-song-form" method="POST" action="/add-song-form">
             <label for="title">Title:</label>
             <input type="text" id="title" name="title" required>
     
@@ -100,30 +67,12 @@
             <input type="text" id="duration" name="duration" required>
 
             <label for="album">Album (FK):</label>
-            <input type="text" id="album" name="album" required>
+            <input type="number" id="album" name="album" required>
     
             <input type="submit" value="Submit">
         </form>
     </div>
 
-    <div class="insert_form">
-        <h2>Update Song</h2>
-        <form id="update-song-form-ajax">
-
-            <label for="update">Song ID</label>
-            <input type="number" id="update-ID" name="update-ID" required>
-
-            <label for="title">Title:</label>
-            <input type="text" id="title" name="title" required>
-    
-            <label for="duration">Duration:</label>
-            <input type="text" id="duration" name="duration" required>
-
-            <label for="album">Album (FK):</label>
-            <input type="text" id="album" name="album" required>
-            
-            <input type="submit">
-        </form>
-    </div>
+    <script src="./js/add_song.js"></script>
 </body>
 </html>
