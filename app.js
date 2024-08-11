@@ -8,7 +8,7 @@ var app = express();               // We need to instantiate an express object t
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
-PORT = 2011;                       // Set a port number at the top so it's easy to change in the future
+PORT = 1922;                       // Set a port number at the top so it's easy to change in the future
 
 // Database
 var db = require('./database/db-connector');
@@ -23,56 +23,79 @@ app.set('view engine', '.hbs');                 // Tell express to use the handl
     ROUTES
 */
 
+// --------------------------------------------------------HOME---------------------------------------------
+app.get('/', function(req, res)
+{
+    return res.render('home');
+});
+
 // --------------------------------------------------------PURCHASE---------------------------------------------
-app.get('/purchase', function(req, res) {
+app.get('/purchase', function(req, res) {   
     let query1;
+    let query2 = "SELECT * FROM `Customers`"
+    let query3 = "SELECT * FROM `Albums`"
 
     if (req.query.purchaseAmount === undefined) {
         query1 = "SELECT * FROM `Purchases`";
-    } else {
-        query1 = `SELECT * FROM Purchases WHERE purchaseAmount LIKE "${req.query.purchaseAmount}%"`;
+    }
+    else {
+        query1 = `SELECT * FROM Purchases WHERE purchaseAmount LIKE "${req.query.purchaseAmount}%"`
     }
 
     db.pool.query(query1, function(error, rows, fields) {
+        
         let results = rows;
-        return res.render('purchase', { data: results });
-    });
+        
+        db.pool.query(query2, function(error, rows, fields) {
+
+            let menu = rows;
+
+            db.pool.query(query3, function(error, rows, fields) {
+
+                let albumMenu = rows;
+
+                return res.render('purchase', {data: results, menu: menu, albumMenu: albumMenu});
+
+            })
+        })
+    })
 });
 
-app.post('/add-purchase-form', function(req, res) {
+app.post('/add-purchase-form', function(req, res){
     let data = req.body;
-    console.log(req.body);
 
-    let query1 = `
-        INSERT INTO Purchases (purchaseDate, purchaseAmount, customerID, albumID)
-        SELECT 
-            '${data['date']}' as purchaseDate,
-            ${data['amount']} as purchaseAmount,         
-            c.customerID,                 
-            a.albumID                 
-        FROM Customers c
-        JOIN Albums a ON a.albumTitle = '${data['album']}'
-        WHERE c.email = '${data['customer']}';
-    `;
+    query1 = `
+    INSERT INTO Purchases (purchaseDate, purchaseAmount, customerID, albumID)
+    SELECT 
+        '${data['date']}' as purchaseDate,
+        ${data['amount']} as purchaseAmount,         
+        c.customerID,                 
+        a.albumID                 
+    FROM Customers c
+    JOIN Albums a ON a.albumID = '${data['album']}'
+    WHERE c.customerID = '${data['customer']}';
+    `
+    console.log(query1)
 
-    db.pool.query(query1, function(error, rows, fields) {
+     db.pool.query(query1, function(error, rows, fields){
         if (error) {
-            console.log(error);
+            console.log(error)
             res.sendStatus(400);
-        } else {
+        }
+        else {
             res.redirect('/purchase');
         }
-    });
-});
+    })
+})
 
-app.delete('/delete-purchase-ajax/', function(req, res, next) {
+app.delete('/delete-purchase-ajax/', function(req, res, next){
     let data = req.body;
     let purchase_ID = parseInt(data.purchaseID);
     let delete_Purchase = `
-        DELETE FROM Purchases 
-        WHERE purchaseID = ?
+    DELETE FROM Purchases 
+    WHERE purchaseID = ?
     `;
-
+  
     db.pool.query(delete_Purchase, [purchase_ID], function(error, rows, fields) {
         if (error) {
             console.log(error);
@@ -80,37 +103,46 @@ app.delete('/delete-purchase-ajax/', function(req, res, next) {
         } else {
             res.sendStatus(204);
         }
-    });
+  })
 });
 
-app.put('/update-purchase-ajax', function(req, res, next) {
+app.put('/update-purchase-ajax', function(req,res,next){
     let data = req.body;
+
     let purchaseID = data.purchaseID;
+    let purchaseDate = data.purchaseDate;
     let purchaseAmount = data.purchaseAmount;
+    let purchaseCustomer = data.purchaseCustomer;
+    let purchaseAlbum = data.purchaseAlbum;
 
-    let queryUpdatePurchase = `
-        UPDATE Purchases
-        SET purchaseAmount = ?
-        WHERE purchaseID = ?
-    `;
+    let query = "UPDATE Purchases SET"
 
-    let selectPurchase = `SELECT * FROM Purchases WHERE purchaseID = ?`;
+    if (purchaseDate) {
+        query = query + " purchaseDate = '" + purchaseDate + "',"
+    }
 
-    db.pool.query(queryUpdatePurchase, [purchaseAmount, purchaseID], function(error, rows, fields) {
+    if (purchaseAmount) {
+        query = query + " purchaseAmount = '" + purchaseAmount + "',"
+    }
+
+    if (purchaseCustomer) {
+        query = query + " customerID = '" + purchaseCustomer + "',"
+    }
+
+    if (purchaseAlbum) {
+        query = query + " albumID = '" + purchaseAlbum + "',"
+    }
+
+    query = query.slice(0, -1) + " WHERE purchaseID = " + purchaseID;
+
+    db.pool.query(query, function(error, rows, fields) {
         if (error) {
             console.log(error);
             res.sendStatus(400);
         } else {
-            db.pool.query(selectPurchase, [purchaseID], function(error, rows, fields) {
-                if (error) {
-                    console.log(error);
-                    res.sendStatus(400);
-                } else {
-                    res.send(rows);
-                }
-            });
+            res.send(rows);
         }
-    });
+    })
 });
 
 // --------------------------------------------------------ARTIST----------------------------------------------

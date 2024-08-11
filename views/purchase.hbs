@@ -68,11 +68,22 @@
             <label for="amount">Amount:</label>
             <input type="number" id="amount" name="amount" step="0.01" required>
 
-            <label for="customer">Customer Email (FK):</label>
-            <input type="text" id="customer" name="customer" required>
+            <label for="customer">Customer Email (FK): </label>
+            <select name="customer" id="customer" required>
+                <option value="customer">Select a Customer's Email</option>
+                {{#each menu}}
+                <option name="customer" type="text" id="customer1" value="{{this.customerID}}">{{this.email}}</option>
+                {{/each}}
+            </select>
 
             <label for="album">Purchased Album Title (FK):</label>
-            <input type="text" id="album" name="album" required>
+            <select name="album" id="album" required>
+                <option value="customer">Select the Album sold:</option>
+                {{#each albumMenu}}
+                <option name="album" type="text" id="album" value="{{this.albumID}}">{{this.albumTitle}}</option>
+                {{/each}}
+            </select>
+
 
             <input type="submit">
         </form>
@@ -82,11 +93,34 @@
         <h2>Update Customer's Purchase Amount</h2>
         <form id="update-purchase-form-ajax">
 
-            <label for="update">Purchase ID</label>
-            <input type="number" id="update-ID" name="update-ID" required>
+            <select name="purchaseID" id="update-ID" required>
+                <option value="">Select which purchase to Update:</option>
+                {{#each data}}
+                <option name="purchaseID" type="text" value="{{this.purchaseID}}">{{this.purchaseID}}</option>
+                {{/each}}
+            </select>
+
+            <label for="date">Date:</label>
+            <input type="date" id="update-date" name="date">
 
             <label for="amount">Amount:</label>
-            <input type="number" id="update-amount" name="amount" step="0.01" required>
+            <input type="number" id="update-amount" name="amount" step="0.01">
+
+            <label for="customer">Customer Email (FK): </label>
+            <select name="customer" id="update-customer">
+                <option value="">Select a Customer's Email</option>
+                {{#each menu}}
+                <option name="customer" type="text" value="{{this.customerID}}">{{this.email}}</option>
+                {{/each}}
+            </select>
+
+            <label for="album">Purchased Album Title (FK):</label>
+            <select name="album" id="update-album">
+                <option value="">Select the Album sold:</option>
+                {{#each albumMenu}}
+                <option name="album" type="text" value="{{this.albumID}}">{{this.albumTitle}}</option>
+                {{/each}}
+            </select>
             
             <input type="submit">
         </form>
