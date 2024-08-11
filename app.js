@@ -241,6 +241,50 @@ app.post('/add-album-form', function(req, res) {
     });
 });
 
+app.put('/update-album-ajax', function(req,res,next){
+    let data = req.body;
+
+    let albumID = data.albumID;
+    let albumArtist = data.albumArtist;
+    let albumTitle = data.albumTitle;
+    let albumGenre = data.albumGenre;
+    let albumDate = data.albumDate;
+    let albumPrice = data.albumPrice;
+
+    let query = "UPDATE Albums SET"
+
+    if (albumArtist) {
+        query = query + " artistID = '" + albumArtist + "',"
+    }
+
+    if (albumTitle) {
+        query = query + " albumTitle = '" + albumTitle + "',"
+    }
+
+    if (albumGenre) {
+        query = query + " albumGenre = '" + albumGenre + "',"
+    }
+
+    if (albumDate) {
+        query = query + " albumReleaseDate = '" + albumDate + "',"
+    }
+    
+    if (albumPrice) {
+        query = query + " albumPrice = '" + albumPrice + "',"
+    }
+
+    query = query.slice(0, -1) + " WHERE albumID = " + albumID;
+
+    db.pool.query(query, function(error, rows, fields) {
+        if (error) {
+            console.log(error);
+            res.sendStatus(400);
+        } else {
+            res.send(rows);
+        }
+    })
+});
+
 
 app.delete('/delete-album-ajax/', function(req, res, next){
     let data = req.body;

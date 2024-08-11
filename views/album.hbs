@@ -92,5 +92,42 @@
     </div>
 
     <script src="./js/add_album.js"></script>
+
+    <div class="insert_form">
+        <h2>Update Album</h2>
+        <form id="update-album-form-ajax">
+
+            <select name="AlbumID" id="update-ID" required>
+                <option value="">Select which Album to Update:</option>
+                {{#each data}}
+                <option name="albumID" type="text" value="{{this.albumID}}">{{this.albumTitle}}</option>
+                {{/each}}
+            </select>
+
+            <label for="artist">Artist (FK):</label>
+            <select name="artist" id="update-artist">
+                <option value="">Select the Artist:</option>
+                {{#each artists}}
+                <option name="artist" type="text" id="artist" value="{{this.artistID}}">{{this.artistName}}</option>
+                {{/each}}
+            </select>
+
+             <label for="title">Title:</label>
+            <input type="text" id="update-title" name="title">
+    
+            <label for="genre">Genre:</label>
+            <input type="text" id="update-genre" name="genre">
+    
+            <label for="release_date">Release Date:</label>
+            <input type="date" id="update-release_date" name="release_date">
+    
+            <label for="price">Price:</label>
+            <input type="number" id="update-price" name="price" step="0.01">
+
+            <input type="submit">
+        </form>
+    </div>
+    <script src="./js/update_album.js"></script>
+
 </body>
 </html>
