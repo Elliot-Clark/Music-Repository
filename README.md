@@ -47,35 +47,6 @@ This project is a **Music Repository** application built using **Node.js**. The 
     Open a web browser and go to:
     http://localhost:1922 (or replace with port # set in app.js)
 
-## Project Structure
-├── database
-│   ├── db-connector.js     # Handles the database connection pool
-│   ├── DDL.sql             # SQL script to set up the database schema
-├── node_modules            # Contains Node.js modules (auto-generated)
-├── public
-│   ├── css
-│   │   └── styles.css      # Custom styles for the application
-│   ├── js
-│   │   ├── delete_album.js   # JavaScript for deleting albums
-│   │   ├── delete_artist.js  # JavaScript for deleting artists
-│   │   ├── delete_customer.js# JavaScript for deleting customers
-│   │   ├── delete_song.js    # JavaScript for deleting songs
-│   │   ├── update_album.js   # JavaScript for updating albums
-│   │   ├── update_purchase.js# JavaScript for updating purchases
-│   │   └── update_song.js    # JavaScript for updating songs
-│   ├── views
-│       ├── layouts
-│       │   └── main.hbs     # Main layout template
-│       ├── album.hbs        # Template for managing albums
-│       ├── artist.hbs       # Template for managing artists
-│       ├── customer.hbs     # Template for managing customers
-│       ├── home.hbs         # Homepage template
-│       ├── purchase.hbs     # Template for managing purchases
-│       └── song.hbs         # Template for managing songs
-├── app.js                   # Main application file
-├── package-lock.json        # Auto-generated file for locking dependencies
-└── package.json             # Lists dependencies and scripts for the project
-
 
 ## Citation for referenced code:
 Based off of "osu-cs340-ecampus/nodejs-starter-app"
